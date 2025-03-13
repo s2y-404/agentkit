@@ -8,12 +8,12 @@ from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi_async_sqlalchemy import SQLAlchemyMiddleware
-from fastapi_cache import FastAPICache
+from fastapi_cache.decorator import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_limiter import FastAPILimiter
 from fastapi_pagination import add_pagination
 from jose import jwt
-from langchain.cache import RedisCache
+from langchain_community.cache import RedisCache
 from langchain.globals import set_llm_cache
 from pydantic import ValidationError
 from starlette.middleware.cors import CORSMiddleware
