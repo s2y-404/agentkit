@@ -1,10 +1,11 @@
 
-name: lint-frontend
+name: front-ci
 
 on:
   pull_request:
-    branches:
-      - '**'
+    branches: ['*']
+  push:
+    branches: ['main']
 
 defaults:
   run:
