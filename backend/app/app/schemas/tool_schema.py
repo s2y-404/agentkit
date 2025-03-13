@@ -10,7 +10,12 @@ LLMType = Literal[
     "gpt-3.5-turbo",
     "azure-4-32k",
     "azure-3.5",
+     "llama3:latest",
+    "mistral",
+    "phi3",
+    "gemma2",
 ]
+
 
 
 class PromptInput(BaseModel):
