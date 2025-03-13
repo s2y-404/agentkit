@@ -4,7 +4,6 @@ import { getMessageFromExecutionResult } from "@/utils"
 import { type ExecutionResult } from "~/api-client"
 import { SUPPORTED_SYNTAX_LANGUAGES } from "~/types"
 import JsxDisplay from "./JsxDisplay"
-import PlotlyDisplay from "./PlotlyDisplay"
 import TextAreaEditor from "./TextAreaEditor"
 import DataTableView from "../../CodeView/SideDrawer/DataTableView"
 import NotificationView from "../../CodeView/SideDrawer/NotificationView"
@@ -33,8 +32,6 @@ const ResultsView = (props: Props) => {
       case SUPPORTED_SYNTAX_LANGUAGES.YAML:
       case SUPPORTED_SYNTAX_LANGUAGES.JSON:
         return <TextAreaEditor code={code} />
-      case SUPPORTED_SYNTAX_LANGUAGES.PLOTLY:
-        return <PlotlyDisplay code={code} />
       case SUPPORTED_SYNTAX_LANGUAGES.IMAGEURL:
         return <Image src={code} width={300} height={200} alt="img" />
       default:

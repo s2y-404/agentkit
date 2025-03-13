@@ -104,13 +104,13 @@ const MessageView = (props: Props) => {
     >
       {isCurrentUser ? (
         <>
-          <div className="mr-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full [&_span]:!text-neutral">
+          <div className="mr-2 flex size-10 shrink-0 items-center justify-center rounded-full [&_span]:!text-neutral">
             {session?.user?.name ? (
-              <div data-cy={CONVERSATION_VIEW_SELECTORS.userAvatar} className="h-full w-full">
+              <div data-cy={CONVERSATION_VIEW_SELECTORS.userAvatar} className="size-full">
                 <Avatar name={session.user.name.replace("-", " ")} size="40" round={true} />
               </div>
             ) : (
-              <Icon.AiOutlineUser className="h-6 w-6" />
+              <Icon.AiOutlineUser className="size-6" />
             )}
           </div>
           <div className="flex w-auto max-w-[calc(100%-2rem)] flex-col items-start justify-start">
@@ -121,7 +121,7 @@ const MessageView = (props: Props) => {
           <div className="invisible group-hover:visible">
             <Dropdown
               tigger={
-                <button className="ml-1 mt-2 flex h-6 w-6 shrink-0 items-center justify-center">
+                <button className="ml-1 mt-2 flex size-6 shrink-0 items-center justify-center">
                   <Icon.IoMdMore className="h-auto w-5 text-base-300 dark:!text-neutral" />
                 </button>
               }
@@ -147,7 +147,7 @@ const MessageView = (props: Props) => {
         </>
       ) : (
         <>
-          <div className="mr-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-gray-950">
+          <div className="mr-2 flex size-10 shrink-0 items-center justify-center rounded-full border bg-gray-950">
             <Image src="/logo.png" width="25" height="25" alt="agent" />
           </div>
           {message.status === "LOADING" && message.content === "" && message.events.length === 0 ? (
@@ -184,7 +184,7 @@ const MessageView = (props: Props) => {
                       <div className="my-1 ml-auto mr-2">
                         <Tooltip content={isActionsCollapsed ? "Show steps" : "Hide steps"} position="daisytooltip-top">
                           <button
-                            className="flex h-6 w-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs opacity-90 hover:opacity-100"
+                            className="flex size-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs opacity-90 hover:opacity-100"
                             onClick={() => setIsActionsCollapsed(!isActionsCollapsed)}
                           >
                             {isActionsCollapsed ? (
@@ -252,7 +252,7 @@ const MessageView = (props: Props) => {
               <div className="invisible group-hover:visible">
                 <Dropdown
                   tigger={
-                    <button className="ml-1 mt-2 flex h-6 w-6 shrink-0 items-center justify-center text-gray-900 hover:text-gray-900">
+                    <button className="ml-1 mt-2 flex size-6 shrink-0 items-center justify-center text-gray-900 hover:text-gray-900">
                       <Icon.IoMdMore className="h-auto w-5 text-base-300 dark:!text-neutral" />
                     </button>
                   }

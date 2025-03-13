@@ -253,7 +253,7 @@ export const getResponseBody = (response: AxiosResponse<any>): any => {
 }
 
 export const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): void => {
-  const errors: Record<number, string> = {
+  /* const errors: Record<number, string> = {
     400: "Bad Request",
     401: "Unauthorized",
     403: "Forbidden",
@@ -262,9 +262,29 @@ export const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): 
     502: "Bad Gateway",
     503: "Service Unavailable",
     ...options.errors,
-  }
+  } */
 
-  const error = errors[result.status]
+    // Remplace par un switch pour éviter les erreurs de compilation
+  
+  var error = ""
+  switch(result.status) {
+    case 400:
+      error = "Bad Request"
+    case 401:
+      error = "Unauthorized"
+    case 403:
+      error = "Forbidden"
+    case 404:
+      error = "Not Found"
+    case 500:
+      error = "Internal Server Error"
+    case 502:
+      error = "Bad Gateway"
+    case 503:
+      error = "Service Unavailable"
+    default:
+      error = "Unknown"
+  }
   if (error) {
     throw new ApiError(options, result, error)
   }

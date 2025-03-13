@@ -53,13 +53,13 @@ const ConversationSidebar = () => {
         contentWrapperClasses="w-full max-w-[220px]"
         colapsedHeader={(toggle) => (
           <div
-            className="my-clg flex h-full w-full grow flex-col items-center justify-between gap-clg"
+            className="my-clg flex size-full grow flex-col items-center justify-between gap-clg"
             data-cy={CONVERSATION_SIDEBAR_SELECTORS.collapsedSidebarWrapper}
           >
             <Image src={LOGO_SRC} width={40} height={40} alt={APPLICATION_TITLE} />
 
             <div
-              className="flex h-full max-h-[calc(96%-60px)] w-full flex-col
+              className="flex max-h-[calc(96%-60px)] size-full flex-col
             items-center gap-csm overflow-auto px-c2xs"
             >
               <Accordion
