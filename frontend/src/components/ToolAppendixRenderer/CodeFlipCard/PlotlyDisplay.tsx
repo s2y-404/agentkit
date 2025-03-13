@@ -1,40 +1,34 @@
-// Charger plotly.js uniquement si nécessaire
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+// Reduce bundle size by only importing the plotly modules we need (https://github.com/plotly/react-plotly.js/issues/72#issuecomment-379578461)
+//@ts-ignore
+import Plotly from "plotly.js-dist-min"
+//@ts-ignore
+import createPlotlyComponent from "react-plotly.js/factory"
 
-// Charger `react-plotly.js` dynamiquement sans SSR
-const PlotlyComponent = dynamic(() => import("react-plotly.js"), { ssr: false });
+const Plot = createPlotlyComponent(Plotly)
 
 interface Props {
-  code: string;
+  code: string
 }
 
-const PlotlyDisplay = ({ code }: Props) => {
-  const [Plotly, setPlotly] = useState<any>(null);
+const PlotlyDisplay = (props: Props) => {
+  const { code } = props
+  const DATA_JSON = JSON.parse(code)
 
-  useEffect(() => {
-    // Import dynamique de plotly.js pour éviter le chargement global
-    import("plotly.js-basic-dist").then((mod) => setPlotly(mod.default));
-  }, []);
-
-  if (!Plotly) return <p>Loading...</p>;
-
-  const DATA_JSON = JSON.parse(code);
   const { data, layout } = {
-    data: DATA_JSON.data || [],
-    layout: DATA_JSON.layout || {},
-  };
+    data: DATA_JSON.data,
+    layout: DATA_JSON.layout,
+  } || { data: [], layout: {} }
 
   return (
-      <div className="flex h-full w-full flex-col items-center justify-center">
-        <PlotlyComponent
-            className="flex h-full w-full flex-col items-center justify-center"
-            data={data}
-            layout={layout}
-            style={{ width: "100%", height: "100%" }}
-        />
-      </div>
-  );
-};
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <Plot
+        className="flex h-full w-full flex-col items-center justify-center"
+        data={data}
+        layout={layout}
+        style={{ width: "100%", height: "100%" }}
+      />
+    </div>
+  )
+}
 
-export default PlotlyDisplay;
+export default PlotlyDisplay
