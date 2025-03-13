@@ -13,8 +13,37 @@ const bundleAnalyzerConfig = {
 
 // PWA Configuration
 const pwaConfig = {
-  dest: 'public', // Directory where the service worker will be generated
-  disable: process.env.NODE_ENV === 'development', // Disable PWA in development
+  dest: 'public', 
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  cacheOnFrontEndNav: true,
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/your-api-url\.com\/.*$/,
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'api-cache',
+        expiration: { maxAgeSeconds: 60 * 60 * 24 }, 
+      },
+    },
+    {
+      urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'google-fonts',
+        expiration: { maxAgeSeconds: 60 * 60 * 24 * 30 }, 
+      },
+    },
+    {
+      urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'image-cache',
+        expiration: { maxAgeSeconds: 60 * 60 * 24 * 7 },
+      },
+    },
+  ],
 };
 
 /** @type {import("next").NextConfig} */
