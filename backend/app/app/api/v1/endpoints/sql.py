@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # mypy: disable-error-code="attr-defined"
-from fastapi import APIRouter
+import logging
+from fastapi import APIRouter, logger
 from fastapi_cache.decorator import cache
 
 from app.db.session import sql_tool_db
@@ -9,6 +10,7 @@ from app.schemas.tool_schemas.sql_tool_schema import ExecutionResult
 from app.utils.sql import is_sql_query_safe
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 @router.get("/execute")
@@ -31,24 +33,16 @@ async def execute_sql(
         )
 
     try:
-        (
-            columns,
-            rows,
-        ) = sql_tool_db.execute(statement)
+        logger.info(f"Executing SQL: {statement[:100]}...")
+        columns, rows = sql_tool_db.execute(statement)
+        logger.info(f"SQL query executed successfully: {len(rows)} rows returned")
         execution_result = ExecutionResult(
-            raw_result=[
-                dict(
-                    zip(
-                        columns,
-                        row,
-                    )
-                )
-                for row in rows
-            ],
+            raw_result=[dict(zip(columns, row)) for row in rows],
             affected_rows=None,
             error=None,
         )
     except Exception as e:
+        logger.error(f"SQL execution error: {repr(e)}", exc_info=True)
         return create_response(
             message=repr(e),
             data=None,
