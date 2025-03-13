@@ -86,7 +86,7 @@ pre-commit:
 ##############################################################################################
 # CREATING THE ENVIRONMENT                                                                   #
 ##############################################################################################
-PYTHON = python3.10
+PYTHON ?= python3
 PROJECT_NAME = AgentKit
 APP_FOLDER = backend/app
 SOURCE_FOLDER = app
@@ -97,10 +97,10 @@ env-create:
 	cd $(APP_FOLDER) \
 		&& . .venv/bin/activate \
 		&& pip install "poetry~=1.7.0" \
+		&& poetry lock --no-update \
 		&& poetry install --no-ansi --with dev
-	# Don't forget to activate the environment before proceeding! You can run:
-	# source .venv/bin/activate
-
+	# Don't forget to activate the environment before proceeding! You can run in backend/app :
+	# source .venv/bin/activate	
 
 .PHONY: env-update
 env-update:
