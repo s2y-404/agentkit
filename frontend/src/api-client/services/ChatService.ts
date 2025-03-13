@@ -8,6 +8,8 @@ import type { CancelablePromise } from "../core/CancelablePromise"
 import { OpenAPI } from "../core/OpenAPI"
 import { request as __request } from "../core/request"
 
+const BASE_URL = "/api/v1/chat/run";
+
 export class ChatService {
   /**
    * Run Status
@@ -15,10 +17,12 @@ export class ChatService {
    * @returns boolean Successful Response
    * @throws ApiError
    */
+
+
   public static runStatusApiV1ChatRunRunIdStatusGet(runId: string): CancelablePromise<boolean> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/api/v1/chat/run/{run_id}/status",
+      url: `${BASE_URL}/{run_id}/status`,
       path: {
         run_id: runId,
       },
@@ -37,7 +41,7 @@ export class ChatService {
   public static runCancelApiV1ChatRunRunIdCancelGet(runId: string): CancelablePromise<boolean> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/api/v1/chat/run/{run_id}/cancel",
+      url: `${BASE_URL}/{run_id}/cancel`,
       path: {
         run_id: runId,
       },

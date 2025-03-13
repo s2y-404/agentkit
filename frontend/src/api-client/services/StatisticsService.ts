@@ -22,7 +22,6 @@ export class StatisticsService {
       method: "POST",
       url: "/api/v1/statistics/feedback",
       body: requestBody,
-      mediaType: "application/json",
       errors: {
         422: `Validation Error`,
       },

@@ -27,6 +27,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) =>
       <title>{APPLICATION_TITLE}</title>
       <meta name="A GenAI POC application @ BCG.X" content="By BCG X" />
       <link rel="icon" href="/favicon.ico" />
+      <link rel="manifest" href="/manifest.json" />
     </Head>
     <ThemeProvider>
       <Layout>

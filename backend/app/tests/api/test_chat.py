@@ -10,7 +10,7 @@ from app.schemas.message_schema import IChatMessage, IChatQuery, ICreatorRole
 from app.schemas.streaming_schema import StreamingData, StreamingDataTypeEnum, StreamingSignalsEnum
 from app.utils import uuid7
 
-
+# Load fixtures
 @pytest.fixture
 def chat_query() -> dict[str, Any]:
     return {
@@ -27,7 +27,7 @@ def chat_query() -> dict[str, Any]:
         "settings": None,
     }
 
-
+# Test with datas
 @pytest.mark.asyncio
 async def test_chat(test_client: TestClient, chat_query: dict[str, Any]):  # pylint: disable=redefined-outer-name
     response = test_client.post("api/v1/chat/agent", json=chat_query)
@@ -82,3 +82,12 @@ async def test_chat(test_client: TestClient, chat_query: dict[str, Any]):  # pyl
         time.sleep(0.1)  # Wait a bit before reading the next line
 
     assert len(response_data) == 5
+
+# Test with invalid key
+@pytest.mark.asyncio
+async def test_chat_with_invalid_api_key(test_client: TestClient, chat_query: dict[str, Any]):
+    chat_query["api_key"] = "invalid_api_key"
+    
+    response = test_client.post("api/v1/chat/agent", json=chat_query)
+    assert response is not None
+    assert response.status_code == 401 
