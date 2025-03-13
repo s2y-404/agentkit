@@ -22,7 +22,7 @@ const EmptyView = (props: Props) => {
 
   return (
     <div
-      className={`${className || ""} flex h-full w-full flex-col items-center justify-start text-black dark:text-black`}
+      className={`${className || ""} flex size-full flex-col items-center justify-start text-black dark:text-black`}
       data-cy={CONVERSATION_VIEW_SELECTORS.emptyChatMessageAreaWrapper}
     >
       {/* <GradientTextSVG /> */}
@@ -32,7 +32,7 @@ const EmptyView = (props: Props) => {
         </div>
       </div>
       <div className="group mx-auto flex w-full max-w-full flex-row items-start justify-start rounded-lg bg-base-100 p-4">
-        <div className="mr-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-gray-950">
+        <div className="mr-2 flex size-10 shrink-0 items-center justify-center rounded-full border bg-gray-950">
           <Image src="/logo.png" width="25" height="25" alt="agent" priority />
         </div>
         <div className="mb-4 w-full px-4 py-3">

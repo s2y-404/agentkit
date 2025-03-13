@@ -20,15 +20,15 @@ const PlotlyDisplay = (props: Props) => {
   } || { data: [], layout: {} }
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <Plot
-        className="flex h-full w-full flex-col items-center justify-center"
-        data={data}
-        layout={layout}
-        style={{ width: "100%", height: "100%" }}
-      />
-    </div>
-  )
-}
+      <div className="flex size-full flex-col items-center justify-center">
+        <PlotlyComponent
+            className="flex size-full flex-col items-center justify-center"
+            data={data}
+            layout={layout}
+            style={{ width: "100%", height: "100%" }}
+        />
+      </div>
+  );
+};
 
 export default PlotlyDisplay
