@@ -4,7 +4,7 @@ import logging
 from datetime import datetime
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from langchain.agents import AgentExecutor
 
@@ -41,6 +41,7 @@ def get_meta_agent_with_api_key(
 async def run_status(
     run_id: str,
 ) -> bool:
+    logger.info(f"Checking status for run_id: {run_id}") 
     return await is_running(run_id)
 
 
@@ -48,6 +49,7 @@ async def run_status(
 async def run_cancel(
     run_id: str,
 ) -> bool:
+    logger.info(f"Cancelling run_id: {run_id}")
     await stop_run(run_id)
     return True
 
@@ -73,6 +75,7 @@ async def agent_chat(
     Returns:
         StreamingResponse: The streaming response of the conversation.
     """
+    logger.info(f"Received POST request to /agent with chat: {chat}")
     logger.info(f"User JWT from request: {jwt}")
 
     api_key = chat.api_key
@@ -86,26 +89,31 @@ async def agent_chat(
     )
     stream_handler = AsyncIteratorCallbackHandler()
     chat_content = chat_messages[-1].content if chat_messages[-1] is not None else ""
-    asyncio.create_task(
-        handle_exceptions(
-            meta_agent.arun(
-                input=chat_content,
-                chat_history=memory.load_memory_variables({})["chat_history"],
-                callbacks=[stream_handler],
-                user_settings=chat.settings,
-                tags=[
-                    "agent_chat",
-                    f"user_email={chat.user_email}",
-                    f"conversation_id={chat.conversation_id}",
-                    f"message_id={chat.new_message_id}",
-                    f"timestamp={datetime.now()}",
-                    f"version={chat.settings.version if chat.settings is not None else 'N/A'}",
-                ],
-            ),
-            stream_handler,
+    try:
+        logger.info("Calling the agent with the provided chat content.")
+        asyncio.create_task(
+            handle_exceptions(
+                meta_agent.arun(
+                    input=chat_content,
+                    chat_history=memory.load_memory_variables({})["chat_history"],
+                    callbacks=[stream_handler],
+                    user_settings=chat.settings,
+                    tags=[
+                        "agent_chat",
+                        f"user_email={chat.user_email}",
+                        f"conversation_id={chat.conversation_id}",
+                        f"message_id={chat.new_message_id}",
+                        f"timestamp={datetime.now()}",
+                        f"version={chat.settings.version if chat.settings is not None else 'N/A'}",
+                    ],
+                ),
+                stream_handler,
+            )
         )
-    )
-
+    except Exception as e:
+        logger.error(f"Error occurred while calling the agent: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    
     return StreamingJsonListResponse(
         event_generator(stream_handler),
         media_type="text/plain",
