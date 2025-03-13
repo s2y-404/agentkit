@@ -13,7 +13,11 @@ services:
     env_file: ".env"
     depends_on:
       - database
-
+  ollama:
+    image: ollama/ollama
+    restart: always
+    ports:
+      - "11434:11434"
   nextjs_server:
     container_name: nextjs_server
     build: ./frontend
@@ -40,7 +44,7 @@ services:
     env_file: ".env"
 
   database:
-    image: ankane/pgvector:v0.4.1
+    image: ankane/pgvector
     restart: always
     container_name: database
     env_file: ".env"
@@ -75,7 +79,39 @@ services:
       - caddy_data:/data
       - caddy_config:/config
 
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: always
+    ports:
+      - "9092:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - fastapi_server
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    restart: always
+    ports:
+      - "3002:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    depends_on:
+      - prometheus
+
 
 volumes:
   caddy_data:
   caddy_config:
+  langchain-db-data:
+  langchain-redis-data:
+  prometheus_data:
+  grafana_data:
