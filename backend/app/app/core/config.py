@@ -4,7 +4,7 @@ import os
 import secrets
 from typing import Any, Optional
 
-from pydantic import AnyHttpUrl, PostgresDsn, validator
+from pydantic import AnyHttpUrl, ConfigDict, PostgresDsn, validator, field_validator
 from pydantic_settings import BaseSettings
 from sqlalchemy.engine import make_url
 
@@ -35,10 +35,7 @@ class Settings(BaseSettings):
     )
     ASYNC_DATABASE_URI: Optional[str] = None
 
-    @validator(
-        "ASYNC_DATABASE_URI",
-        pre=True,
-    )
+    @field_validator("ASYNC_DATABASE_URI")
     def assemble_db_connection(
         cls,
         v: str | None,
@@ -47,25 +44,20 @@ class Settings(BaseSettings):
             Any,
         ],
     ) -> Any:
-        if isinstance(
-            v,
-            str,
-        ):
+        if isinstance(v, str):
             return v
+
         return PostgresDsn.build(
             scheme="postgresql+asyncpg",
-            username=values.get("DATABASE_USER"),
-            password=values.get("DATABASE_PASSWORD"),
-            host=f"{values.get('DATABASE_HOST')}:{values.get('DATABASE_PORT')}",
-            path=f"{values.get('DATABASE_NAME') or ''}",
+            username=values.data.get("DATABASE_USER"),
+            password=values.data.get("DATABASE_PASSWORD"),
+            host=f"{values.data.get('DATABASE_HOST')}:{values.data.get('DATABASE_PORT')}",
+            path=f"{values.data.get('DATABASE_NAME') or ''}",
         ).unicode_string()
 
     SYNC_CELERY_DATABASE_URI: Optional[str] = None
 
-    @validator(
-        "SYNC_CELERY_DATABASE_URI",
-        pre=True,
-    )
+    @field_validator("SYNC_CELERY_DATABASE_URI")
     def assemble_celery_db_connection(
         cls,
         v: str | None,
@@ -81,18 +73,15 @@ class Settings(BaseSettings):
             return v
         return PostgresDsn.build(
             scheme="postgresql",
-            username=values.get("DATABASE_USER"),
-            password=values.get("DATABASE_PASSWORD"),
-            host=f"{values.get('DATABASE_HOST')}:{values.get('DATABASE_PORT')}",
-            path=f"{values.get('DATABASE_CELERY_NAME') or ''}",
+            username=values.data.get("DATABASE_USER"),
+            password=values.data.get("DATABASE_PASSWORD"),
+            host=f"{values.data.get('DATABASE_HOST')}:{values.data.get('DATABASE_PORT')}",
+            path=f"{values.data.get('DATABASE_CELERY_NAME') or ''}",
         ).unicode_string()
 
     SYNC_CELERY_BEAT_DATABASE_URI: Optional[str] = None
 
-    @validator(
-        "SYNC_CELERY_BEAT_DATABASE_URI",
-        pre=True,
-    )
+    @field_validator("SYNC_CELERY_BEAT_DATABASE_URI")
     def assemble_celery_beat_db_connection(
         cls,
         v: str | None,
@@ -108,18 +97,15 @@ class Settings(BaseSettings):
             return v
         return PostgresDsn.build(
             scheme="postgresql",
-            username=values.get("DATABASE_USER"),
-            password=values.get("DATABASE_PASSWORD"),
-            host=f"{values.get('DATABASE_HOST')}:{values.get('DATABASE_PORT')}",
-            path=f"{values.get('DATABASE_CELERY_NAME') or ''}",
+            username=values.data.get("DATABASE_USER"),
+            password=values.data.get("DATABASE_PASSWORD"),
+            host=f"{values.data.get('DATABASE_HOST')}:{values.data.get('DATABASE_PORT')}",
+            path=f"{values.data.get('DATABASE_CELERY_NAME') or ''}",
         ).unicode_string()
 
     ASYNC_CELERY_BEAT_DATABASE_URI: Optional[str] = None
 
-    @validator(
-        "ASYNC_CELERY_BEAT_DATABASE_URI",
-        pre=True,
-    )
+    @field_validator("ASYNC_CELERY_BEAT_DATABASE_URI")
     def assemble_async_celery_beat_db_connection(
         cls,
         v: str | None,
@@ -135,10 +121,10 @@ class Settings(BaseSettings):
             return v
         return PostgresDsn.build(
             scheme="postgresql+asyncpg",
-            username=values.get("DATABASE_USER"),
-            password=values.get("DATABASE_PASSWORD"),
-            host=f"{values.get('DATABASE_HOST')}:{values.get('DATABASE_PORT')}",
-            path=f"{values.get('DATABASE_CELERY_NAME') or ''}",
+            username=values.data.get("DATABASE_USER"),
+            password=values.data.get("DATABASE_PASSWORD"),
+            host=f"{values.data.get('DATABASE_HOST')}:{values.data.get('DATABASE_PORT')}",
+            path=f"{values.data.get('DATABASE_CELERY_NAME') or ''}",
         ).unicode_string()
 
     MINIO_ROOT_USER: str
@@ -196,10 +182,7 @@ class Settings(BaseSettings):
     SQL_TOOL_DB_URI: str
     SQL_TOOL_DB_OVERWRITE_ON_START: bool = True
 
-    @validator(
-        "SQL_TOOL_DB_URI",
-        pre=True,
-    )
+    @field_validator("SQL_TOOL_DB_URI")
     def assemble_sql_tool_db_connection(
         cls,
         v: str | None,
@@ -208,7 +191,7 @@ class Settings(BaseSettings):
             Any,
         ],
     ) -> Any:
-        if not values.get("SQL_TOOL_DB_ENABLED"):
+        if not values.data.get("SQL_TOOL_DB_ENABLED"):
             return ""
         if isinstance(
             v,

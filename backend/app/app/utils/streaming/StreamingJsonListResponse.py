@@ -67,7 +67,7 @@ class StreamingJsonListResponse(StreamingResponse):
         async for idx, item in async_enumerate(async_generator):
             if idx > 0:
                 yield "\n"
-            yield json.dumps(jsonable_encoder(item.dict()))
+            yield json.dumps(jsonable_encoder(item.model_dump()))
 
     @staticmethod
     async def _encoded_generator(
