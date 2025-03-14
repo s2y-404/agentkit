@@ -3,7 +3,7 @@ import dynamic from "next/dynamic"
 import Head from "next/head"
 
 import { TopWarningBanner } from "~/components/Common"
-import { APPLICATION_TITLE } from "~/utils"
+import { CONSTANTS } from "~/utils"
 
 // Use dynamic import to avoid page hydrated.
 // reference: https://github.com/pmndrs/zustand/issues/1145#issuecomment-1316431268
@@ -21,7 +21,7 @@ const ChatLanding: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{APPLICATION_TITLE}</title>
+        <title>{CONSTANTS.APPLICATION_TITLE}</title>
         <meta name="AgentKit @ BCG.X" content="By BCG X" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
