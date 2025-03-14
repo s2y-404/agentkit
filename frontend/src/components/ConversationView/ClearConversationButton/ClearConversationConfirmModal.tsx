@@ -24,6 +24,7 @@ const ClearConversationConfirmModal = ({ getConversationClearModalId }: Props) =
           <button
             className="daisybtn daisybtn-error daisybtn-sm font-normal capitalize text-neutral lg:daisybtn-md hover:opacity-80"
             onClick={handleClearMessages}
+            aria-label="Name"
           >
             Clear
           </button>
@@ -32,6 +33,7 @@ const ClearConversationConfirmModal = ({ getConversationClearModalId }: Props) =
             onClick={() => {
               Modal.closeModal(modalId)
             }}
+            aria-label="Name"
           >
             Close
           </button>
@@ -39,7 +41,7 @@ const ClearConversationConfirmModal = ({ getConversationClearModalId }: Props) =
       }
     >
       <div className="flex flex-col items-center justify-center rounded-lg bg-transparent px-cmd py-cxl dark:bg-base-100">
-        <h3 className="m-0 p-0 !text-fluid-cmd font-bold">Clear messages</h3>
+        <p className="m-0 p-0 !text-fluid-cmd font-bold">Clear messages</p>
         <div className="daisydivider" />
         <p className="text-gray-500">Are you sure to clear the messages in current conversation?</p>
       </div>

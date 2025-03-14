@@ -103,6 +103,7 @@ const ConversationSidebar = () => {
                 className="daisybtn daisybtn-square glass !w-full capitalize hover:daisybtn-accent"
                 onClick={handleCreateConversation}
                 data-cy={CONVERSATION_SIDEBAR_SELECTORS.collapsedAddChatButton}
+                aria-label="Name"
               >
                 <Icon.AiOutlinePlus className="text-fluid-cmd" />
               </button>
@@ -115,6 +116,7 @@ const ConversationSidebar = () => {
                 className="group group daisybtn glass daisybtn-md relative bottom-0 flex w-full justify-center px-csm"
                 onClick={() => toggle()}
                 data-cy={CONVERSATION_SIDEBAR_SELECTORS.expandSidebarButton}
+                aria-label="Name"
               >
                 <Icon.BiArrowFromLeft className="!text-fluid-cmd hover:!scale-110 hover:!opacity-80 group-hover:!text-neutral" />
               </button>
@@ -132,7 +134,7 @@ const ConversationSidebar = () => {
 
             <div className="flex w-full justify-center">
               <div className="flex w-full flex-col gap-cmd py-cmd">
-                <button className="group daisybtn glass hover:daisybtn-error" onClick={() => signOut()}>
+                <button className="group daisybtn glass hover:daisybtn-error" onClick={() => signOut()} aria-label="Name">
                   <Icon.IoLogOutOutline className="!text-fluid-cmd text-base-200 group-hover:!text-neutral dark:!text-neutral" />
                 </button>
 
@@ -140,6 +142,7 @@ const ConversationSidebar = () => {
                   className="group daisybtn glass hover:daisybtn-secondary"
                   onClick={() => Modal.openModal(getSettingsModalId())}
                   data-cy={CONVERSATION_SIDEBAR_SELECTORS.collapseSidebarButton}
+                  aria-label="Name"
                 >
                   <Icon.FiSettings className="!text-fluid-cmd text-base-200 group-hover:!text-neutral dark:!text-neutral" />
                 </button>
@@ -151,6 +154,7 @@ const ConversationSidebar = () => {
             <button
               className="group daisybtn glass daisybtn-md flex w-full justify-center px-csm"
               onClick={() => toggle()}
+              aria-label="Name"
             >
               <Icon.BiArrowFromRight className="!cursor-pointer !text-fluid-cmd group-hover:!text-neutral" />
             </button>
@@ -204,6 +208,7 @@ const ConversationSidebar = () => {
                             <button
                               className="invisible ml-2 flex h-auto w-4 shrink-0 items-center justify-center text-gray-400 hover:text-gray-500 group-hover:visible"
                               data-cy={CONVERSATION_SIDEBAR_SELECTORS.chatEllipsisButton}
+                              aria-label="Name"
                             >
                               <Icon.FiMoreHorizontal className="h-auto w-full group-hover:text-neutral" />
                             </button>
@@ -240,6 +245,7 @@ const ConversationSidebar = () => {
             className="daisybtn daisybtn-accent capitalize text-neutral"
             onClick={handleCreateConversation}
             data-cy={CONVERSATION_SIDEBAR_SELECTORS.expandedAddChatButton}
+            aria-label="Name"
           >
             <Icon.AiOutlinePlus className="text-fluid-cmd" />
             <>New chat</>

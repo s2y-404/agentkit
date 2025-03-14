@@ -11,6 +11,7 @@ export const ThemeSwitch = () => {
         className="daisytheme-controller cursor-pointer"
         value={theme}
         onChange={() => (theme === "dark" ? setTheme("light") : setTheme("dark"))}
+        aria-label="checkbox"
       />
       {theme === "light" ? (
         <Icon.MdOutlineWbSunny className="!text-fluid-cmd hover:!scale-110 hover:!opacity-60" />

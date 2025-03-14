@@ -44,6 +44,7 @@ const UpdateConversationModal = (props: Props) => {
             disabled={!allowSave}
             onClick={handleSaveEdit}
             data-cy={CONVERSATION_SIDEBAR_SELECTORS.saveChatButton}
+            aria-label="Name"
           >
             Save
           </button>
@@ -52,6 +53,7 @@ const UpdateConversationModal = (props: Props) => {
             onClick={() => {
               Modal.closeModal(modalId)
             }}
+            aria-label="Name"
           >
             Close
           </button>

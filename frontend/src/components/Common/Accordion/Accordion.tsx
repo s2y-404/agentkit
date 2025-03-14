@@ -72,6 +72,7 @@ export const Accordion = ({ accordionID, items, forceAccordionItemsToggle, iconP
                 }}
                 onChange={() => undefined}
                 className={inputClasses}
+                aria-label="toggle"
               />
               <div className={titleClasses}>
                 {title} {CustomToggleIcon ? <span>{CustomToggleIcon}</span> : null}

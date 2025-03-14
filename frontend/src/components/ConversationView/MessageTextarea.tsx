@@ -89,6 +89,7 @@ const MessageTextarea = (props: Props) => {
         disabled={disabled}
         onClick={handleSend}
         data-cy={CONVERSATION_VIEW_SELECTORS.sendMessageButton}
+        aria-label="Name"
       >
         <Icon.IoMdSend className="h-auto w-full text-accent" />
       </button>

@@ -18,6 +18,7 @@ const ClearConversationButton = () => {
         className="daisybtn glass hover:daisybtn-error"
         disabled={messageList.length === 0}
         onClick={() => Modal.openModal(getConversationClearModalId())}
+        aria-label="Name"
       >
         <Icon.BiTrash className="h-auto w-6" />
       </button>
