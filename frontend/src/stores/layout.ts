@@ -16,17 +16,10 @@ export const useLayoutStore = create<LayoutState>()((set) => ({
   showSidebar: true,
   isMobileView: false,
   toggleSidebar: (show) => {
-    if (isUndefined(show)) {
-      set((state) => ({
-        ...state,
-        showSidebar: !state.showSidebar,
-      }))
-    } else {
-      set((state) => ({
-        ...state,
-        showSidebar: show,
-      }))
-    }
+    set((state) => ({
+      ...state,
+      showSidebar: isUndefined(show) ? !state.showSidebar : show,
+    }));    
   },
   setIsMobileView: (value) => {
     set((state) => ({

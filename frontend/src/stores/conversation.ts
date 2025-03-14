@@ -70,11 +70,7 @@ export const useConversationStore = create<ConversationState>()(
         let state = persistedState as ConversationState
         if (version === 0) {
           for (const conversation of state.conversationList) {
-            if (!conversation.connectionId) {
-              conversation.agentId = "general-bot"
-            } else {
-              conversation.agentId = "sql-chat-bot"
-            }
+            conversation.agentId = !conversation.connectionId ? "general-bot" : "sql-chat-bot";
           }
           state.currentConversationId = undefined
         }

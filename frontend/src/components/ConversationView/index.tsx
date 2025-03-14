@@ -35,16 +35,11 @@ const ConversationView = () => {
   useEffect(() => {
     messageStore.messageList.map((message) => {
       if (message.status === "LOADING") {
-        if (message.content === "") {
-          messageStore.updateMessage(message.id, {
-            content: "Failed to send the message.",
-            status: "FAILED",
-          })
-        } else {
-          messageStore.updateMessage(message.id, {
-            status: "DONE",
-          })
-        }
+        messageStore.updateMessage(message.id, 
+          message.content === "" 
+            ? { content: "Failed to send the message.", status: "FAILED" } 
+            : { status: "DONE" }
+        );        
       }
     })
 

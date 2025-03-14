@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 
 import { useConversationStore } from "~/stores"
-import { APPLICATION_TITLE } from "~/utils"
+import { CONSTANTS } from "~/utils"
 
 import { CONVERSATION_VIEW_SELECTORS } from "./ConversationView.selectors"
 import { ThemeSwitch } from "../Common"
@@ -9,7 +9,7 @@ import { ThemeSwitch } from "../Common"
 const Header = () => {
   const conversationStore = useConversationStore()
   const currentConversationId = conversationStore.currentConversationId
-  const title = conversationStore.getConversationById(currentConversationId)?.title || APPLICATION_TITLE
+  const title = conversationStore.getConversationById(currentConversationId)?.title || CONSTANTS.APPLICATION_TITLE
 
   useEffect(() => {
     document.title = `${title}`
