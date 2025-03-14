@@ -7,7 +7,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from langchain.agents import AgentExecutor
-
+from ollama import chat as chat_ollama
 from app.api.deps import get_jwt
 from app.core.config import settings
 from app.deps import agent_deps
@@ -56,6 +56,7 @@ async def run_cancel(
 async def agent_chat(
     chat: IChatQuery,
     jwt: Annotated[dict, Depends(get_jwt)],
+    ollama: bool = True,
     meta_agent: AgentExecutor = Depends(get_meta_agent_with_api_key),
 ) -> StreamingResponse:
     """
@@ -86,27 +87,41 @@ async def agent_chat(
     )
     stream_handler = AsyncIteratorCallbackHandler()
     chat_content = chat_messages[-1].content if chat_messages[-1] is not None else ""
-    asyncio.create_task(
-        handle_exceptions(
-            meta_agent.arun(
-                input=chat_content,
-                chat_history=memory.load_memory_variables({})["chat_history"],
-                callbacks=[stream_handler],
-                user_settings=chat.settings,
-                tags=[
-                    "agent_chat",
-                    f"user_email={chat.user_email}",
-                    f"conversation_id={chat.conversation_id}",
-                    f"message_id={chat.new_message_id}",
-                    f"timestamp={datetime.now()}",
-                    f"version={chat.settings.version if chat.settings is not None else 'N/A'}",
-                ],
-            ),
-            stream_handler,
-        )
-    )
 
-    return StreamingJsonListResponse(
-        event_generator(stream_handler),
-        media_type="text/plain",
-    )
+    if ollama == True: 
+        messages = [
+            {
+                'role': 'user',
+                'content': f'{chat_content}',
+            },
+        ]
+
+        stream = chat_ollama('llama3.2', messages=messages, stream=True)
+        for chunk in stream:
+            print(chunk['message']['content'], end='', flush=True)
+        return chunk['message']['content']
+    else: 
+        asyncio.create_task(
+            handle_exceptions(
+                meta_agent.arun(
+                    input=chat_content,
+                    chat_history=memory.load_memory_variables({})["chat_history"],
+                    callbacks=[stream_handler],
+                    user_settings=chat.settings,
+                    tags=[
+                        "agent_chat",
+                        f"user_email={chat.user_email}",
+                        f"conversation_id={chat.conversation_id}",
+                        f"message_id={chat.new_message_id}",
+                        f"timestamp={datetime.now()}",
+                        f"version={chat.settings.version if chat.settings is not None else 'N/A'}",
+                    ],
+                ),
+                stream_handler,
+            )
+        )
+
+        return StreamingJsonListResponse(
+            event_generator(stream_handler),
+            media_type="text/plain",
+        )
