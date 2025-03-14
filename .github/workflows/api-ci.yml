@@ -40,6 +40,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create empty .env file
+        run: touch .env
+
       - name: Restore cached dependencies
         uses: actions/cache@v3
         with:
@@ -58,6 +61,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Create empty .env file
+        run: touch .env
 
       - name: Restore cached dependencies
         uses: actions/cache@v3
