@@ -36,7 +36,7 @@ const EmptyView = (props: Props) => {
           <Image src="/logo.png" width="25" height="25" alt="agent" priority />
         </div>
         <div className="mb-4 w-full px-4 py-3">
-          <h3 className="font-medium"> Can be used with any set of tools as a general purpose helpful chatbot!</h3>
+          <p className="font-medium"> Can be used with any set of tools as a general purpose helpful chatbot!</p>
           <div className="mt-2 text-sm leading-loose text-gray-500 dark:text-gray-500">
             <p>Here are the simple examples for general use cases:</p>
             <ol className="mb-4 list-decimal pl-6">
