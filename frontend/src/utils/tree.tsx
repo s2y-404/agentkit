@@ -67,13 +67,9 @@ export function buildSectionTree(list: ListItem[], expanded: boolean = false): T
       parentNode = allNodes[parentNumber]
     } while (!parentNode && parentNumber.includes("."))
 
-    if (parentNode) {
-      if (!parentNode.children) parentNode.children = []
-      parentNode.children.push(newNode)
-    } else {
-      // If no parent was found through the loop it should be a root
-      roots[parentNumber] = newNode
-    }
+      parentNode
+      ? (parentNode.children ||= []).push(newNode)
+      : (roots[parentNumber] = newNode);    
   })
 
   return Object.values(roots)
