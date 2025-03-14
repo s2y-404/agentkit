@@ -7,11 +7,10 @@ on:
     branches: ['main']
 
 jobs:
-  setup:
-    name: Setup Backend
-    runs-on: ubuntu-latest
-    outputs:
-      python-cache-key: ${{ steps.cache-python.outputs.cache-hit }}
+  lint-backend:
+    name: Lint Backend
+    runs-on: Linux
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -20,7 +19,6 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: '3.10'
-          cache: 'pip'
 
       - name: Create empty .env file
         run: touch .env
@@ -28,29 +26,6 @@ jobs:
       - name: Install dependencies
         run: make env-create
 
-      - name: Save virtual environment
-        uses: actions/cache@v4
-        with:
-          path: backend/app/.venv
-          key: venv-${{ runner.os }}-python-3.10-${{ hashFiles('**/requirements*.txt') }}
-
-  lint-backend:
-    name: Lint Backend
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Restore virtual environment
-        uses: actions/cache@v4
-        with:
-          path: backend/app/.venv
-          key: venv-${{ runner.os }}-python-3.10-${{ hashFiles('**/requirements*.txt') }}
-
-      - name: Copy .env.example to .env
-        run: cp .env.example .env
-      
       - name: Run linter
         run: |
           source backend/app/.venv/bin/activate
@@ -58,17 +33,22 @@ jobs:
 
   tests-backend:
     name: Tests Backend
-    runs-on: ubuntu-latest
-    needs: setup
+    runs-on: Linux
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
-      - name: Restore virtual environment
-        uses: actions/cache@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
         with:
-          path: backend/app/.venv
-          key: venv-${{ runner.os }}-python-3.10-${{ hashFiles('**/requirements*.txt') }}
+          python-version: '3.10'
+
+      - name: Create empty .env file
+        run: touch .env
+
+      - name: Install dependencies
+        run: make env-create
 
       - name: Run tests
         run: |

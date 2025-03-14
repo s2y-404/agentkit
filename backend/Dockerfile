@@ -13,6 +13,7 @@ COPY app/pyproject.toml app/poetry.lock* /code/
 
 # Allow installing dev dependencies to run tests
 ARG INSTALL_DEV=true
+RUN bash -c "poetry lock"
 RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --with dev --no-root ; else poetry install --no-root --no-dev ; fi"
 
 ENV PYTHONPATH=/code
