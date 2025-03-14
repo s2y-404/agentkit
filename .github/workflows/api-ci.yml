@@ -48,6 +48,9 @@ jobs:
           path: backend/app/.venv
           key: venv-${{ runner.os }}-python-3.10-${{ hashFiles('**/requirements*.txt') }}
 
+      - name: Copy .env.example to .env
+        run: cp .env.example .env
+      
       - name: Run linter
         run: |
           source backend/app/.venv/bin/activate
