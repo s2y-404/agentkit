@@ -14,5 +14,11 @@ REQUEST_LATENCY = Histogram(
 def metrics():
     """
     Expose toutes les métriques au format Prometheus.
+    Gère les erreurs et retourne un message approprié en cas d'échec.
     """
-    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+    try:
+        metrics_data = generate_latest()
+        return Response(metrics_data, media_type=CONTENT_TYPE_LATEST)
+    except Exception as e:
+        error_message = f"Erreur lors de la récupération des métriques: {str(e)}"
+        return Response(error_message, media_type="text/plain", status_code=500)
