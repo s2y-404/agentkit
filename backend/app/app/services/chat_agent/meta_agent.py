@@ -109,3 +109,23 @@ def create_meta_agent(
         early_stopping_method="generate",
         handle_parsing_errors=True,
     )
+
+class ConversationTokenBufferMemory:
+    # ...existing code...
+
+    def save_contexts(self, contexts: List[dict]):
+        """
+        Save multiple contexts in batch.
+
+        Args:
+            contexts (List[dict]): List of contexts to save.
+        """
+        for context in contexts:
+            self.save_context(context['inputs'], context['outputs'])
+
+    def reduce_memory_size(self):
+        """
+        Reduce the memory size dynamically based on the token limit.
+        """
+        while self.token_count > self.max_token_limit:
+            self.chat_memory.pop(0)
