@@ -2,14 +2,34 @@
 # mypy: disable-error-code="attr-defined"
 from fastapi import APIRouter
 from fastapi_cache.decorator import cache
+import asyncpg
+import os
+from dotenv import load_dotenv
 
-from app.db.session import sql_tool_db
 from app.schemas.response_schema import IGetResponseBase, create_response
 from app.schemas.tool_schemas.sql_tool_schema import ExecutionResult
 from app.utils.sql import is_sql_query_safe
 
+load_dotenv('/home/sydsyd/source/repos/agentkit/.env')
+
 router = APIRouter()
 
+pool = None
+
+async def init_pool():
+    global pool
+    database_user = os.getenv('DATABASE_USER')
+    database_password = os.getenv('DATABASE_PASSWORD')
+    database_host = os.getenv('DATABASE_HOST')
+    database_name = os.getenv('DATABASE_NAME')
+    database_port = os.getenv('DATABASE_PORT')
+
+    dsn = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
+    pool = await asyncpg.create_pool(dsn=dsn)
+
+@router.on_event("startup")
+async def startup():
+    await init_pool()
 
 @router.get("/execute")
 @cache(expire=600)  # -> Bug on POST requests https://github.com/long2ice/fastapi-cache/issues/113
@@ -23,7 +43,7 @@ async def execute_sql(
             data=None,
             meta={},
         )
-    if sql_tool_db is None:
+    if pool is None:
         return create_response(
             message="SQL query execution is disabled",
             data=None,
@@ -31,23 +51,22 @@ async def execute_sql(
         )
 
     try:
-        (
-            columns,
-            rows,
-        ) = sql_tool_db.execute(statement)
-        execution_result = ExecutionResult(
-            raw_result=[
-                dict(
-                    zip(
-                        columns,
-                        row,
+        async with pool.acquire() as connection:
+            async with connection.transaction():
+                async with connection.cursor(statement) as cursor:
+                    columns = [desc.name for desc in cursor.get_attributes()]
+                    rows = []
+                    async for row in cursor:
+                        rows.append(row)
+                    
+                    execution_result = ExecutionResult(
+                        raw_result=[
+                            dict(zip(columns, row))
+                            for row in rows
+                        ],
+                        affected_rows=None,
+                        error=None,
                     )
-                )
-                for row in rows
-            ],
-            affected_rows=None,
-            error=None,
-        )
     except Exception as e:
         return create_response(
             message=repr(e),
