@@ -41,6 +41,7 @@ export const CodeBlock = (props: Props) => {
         <div className="flex items-center space-x-2">
           <Tooltip content="Copy" position="daisytooltip-top">
             <button
+              aria-label="Name"
               className="flex size-6 items-center justify-center rounded bg-gray-500 bg-none p-1 text-xs text-white opacity-70 hover:opacity-100"
               onClick={copyToClipboard}
             >
@@ -50,6 +51,7 @@ export const CodeBlock = (props: Props) => {
           {showExecuteButton && (
             <Tooltip content="Open & Edit" position="daisytooltip-top">
               <button
+                aria-label="Name"
                 className="flex size-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs text-white opacity-90 hover:opacity-100"
                 onClick={handleExecuteQuery}
               >

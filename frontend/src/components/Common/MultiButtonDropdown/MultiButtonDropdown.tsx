@@ -51,6 +51,7 @@ export const MultiButtonDropdown = ({ title, items, isInline }: MultiButtonDropd
                       "block px-4 py-2 text-sm"
                     )}`}
                     onClick={item.onClick}
+                    aria-label="Name"
                   >
                     {item.title}
                   </button>

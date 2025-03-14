@@ -94,6 +94,7 @@ const FeedbackView = (props: Props) => {
                         ? "bg-green-500 text-white hover:bg-green-700"
                         : "bg-gray-500 text-gray-100 hover:bg-gray-700"
                     }`}
+                    aria-label="Name"
                   >
                     <Icon.FiThumbsUp className="size-6" />
                   </button>
@@ -106,6 +107,7 @@ const FeedbackView = (props: Props) => {
                         ? "bg-red-500 text-white hover:bg-red-700"
                         : "bg-gray-500 text-gray-100 hover:bg-gray-700"
                     }`}
+                    aria-label="Name"
                   >
                     <Icon.FiThumbsDown className="size-6" />
                   </button>
@@ -135,6 +137,7 @@ const FeedbackView = (props: Props) => {
                     className="bg-bcg-green w-6 -translate-y-2 cursor-pointer rounded-md p-1 text-gray-50 opacity-90 hover:opacity-100 hover:shadow disabled:cursor-not-allowed disabled:opacity-60"
                     onClick={() => sendFeedback(score || 0, comment)}
                     disabled={score != 0 && score != 1}
+                    aria-label="Name"
                   >
                     {loading && <Icon.BiLoaderAlt className="h-auto w-full animate-spin" />}
                     {!loading && <Icon.IoPlay className="h-auto w-full" />}

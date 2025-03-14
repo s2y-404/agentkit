@@ -12,6 +12,7 @@ export const CloseSidebarButton = ({ onClick, reverseArrows = false }: Props) =>
       <button
         className="flex size-10 flex-row items-center justify-center rounded-full p-1 text-gray-600 hover:bg-accent hover:text-gray-900 dark:text-gray-300 dark:hover:bg-accent dark:hover:text-gray-100"
         onClick={onClick}
+        aria-label="Name"
       >
         <IconComponent className="h-auto w-6 text-gray-600 dark:text-gray-300" />
       </button>
@@ -26,6 +27,7 @@ export const OpenSidebarButton = ({ onClick, reverseArrows = false }: Props) => 
     <button
       className="flex size-10 flex-row items-center justify-center rounded-full p-1 text-gray-600 hover:bg-accent hover:text-gray-900 dark:text-gray-300 dark:hover:bg-accent dark:hover:text-gray-100"
       onClick={onClick}
+      aria-label="Name"
     >
       <IconComponent className="h-auto w-6 text-gray-600 dark:text-gray-300" />
     </button>

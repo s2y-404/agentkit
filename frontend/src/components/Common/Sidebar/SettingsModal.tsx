@@ -52,6 +52,7 @@ export const SettingsModal = (props: Props) => {
           <button
             className="daisybtn daisybtn-secondary daisybtn-sm  font-normal capitalize lg:daisybtn-md"
             onClick={() => saveSettings()}
+            aria-label="Name"
           >
             <Icon.FiSave className="mr-1 h-auto w-5" />
             Save
@@ -59,6 +60,7 @@ export const SettingsModal = (props: Props) => {
           <button
             className="daisybtn glass daisybtn-sm font-normal capitalize lg:daisybtn-md hover:text-neutral"
             onClick={() => Modal.closeModal(modalId)}
+            aria-label="Name"
           >
             <Icon.FiX className="mr-1 h-auto w-5" />
             Cancel
@@ -70,13 +72,14 @@ export const SettingsModal = (props: Props) => {
         <h3 className="m-0 p-0 !text-fluid-cmd font-bold">Settings</h3>
         <div className="daisydivider" />
         <div className="flex size-full flex-col gap-cmd">
-          <Input type="text" label="OpenAI API Key" value={openaiApiKey} onChange={(value) => setOpenaiApiKey(value)} />
-          <Input type="text" label="OpenAI Org ID" value={openaiOrgId} onChange={(value) => setOpenaiOrgId(value)} />
+          <Input type="text" label="OpenAI API Key" value={openaiApiKey} onChange={(value) => setOpenaiApiKey(value)} aria-label="OpenAI API Key"/>
+          <Input type="text" label="OpenAI Org ID" value={openaiOrgId} onChange={(value) => setOpenaiOrgId(value)} aria-label="OpenAI Org ID"/>
           <Input
             type="text"
             label="Favorite artist"
             value={favoriteArtist}
             onChange={(e) => setFavoriteArtist(e.target.value)}
+            aria-label="Favorite artist"
           />
         </div>
       </div>

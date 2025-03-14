@@ -86,6 +86,7 @@ export const Tabs: FC<TabsProps> = ({ children, forcedActiveTab, classNames, fix
                   }}
                   className={getButtonClasses(label)}
                   onClick={() => handleClick(label)}
+                  aria-label="Name"
                 >
                   {icon ? <span className={hideLabel ? "p-1 [&>svg]:text-xl" : "p-1"}>{icon}</span> : null}
                   {!hideLabel ? label : ""}

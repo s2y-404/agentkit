@@ -37,7 +37,7 @@ export const TagInput = ({ tags, setTags }: TagInputProps) => {
           style={{ backgroundColor: tag.color }}
         >
           <span className="!text-neutral">{tag.value}</span>
-          <button className="ml-2 p-1 text-xs" onClick={() => handleRemoveTag(tag)}>
+          <button className="ml-2 p-1 text-xs" onClick={() => handleRemoveTag(tag)} aria-label="Name">
             x
           </button>
         </div>
@@ -49,6 +49,7 @@ export const TagInput = ({ tags, setTags }: TagInputProps) => {
         onKeyDown={handleKeyDown}
         placeholder="Add filter..."
         className="daisyinput daisyinput-bordered daisyinput-md w-full flex-1 bg-neutral outline-none disabled:!bg-base-100 dark:bg-base-200"
+        aria-label="filter"
       />
     </div>
   )

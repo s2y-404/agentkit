@@ -80,6 +80,7 @@ const SideDrawer = () => {
           <button
             className="group daisybtn glass daisybtn-md flex w-full justify-center px-csm"
             onClick={() => toggle()}
+            aria-label="Name"
           >
             <Icon.BiArrowFromLeft className="!cursor-pointer !text-fluid-cmd group-hover:!text-neutral" />
           </button>
@@ -109,6 +110,7 @@ const SideDrawer = () => {
               <button
                 className="w-6 -translate-y-2 cursor-pointer rounded-md bg-accent p-1 text-gray-50 opacity-90 hover:opacity-100 hover:shadow disabled:cursor-not-allowed disabled:opacity-60"
                 onClick={() => executeStatement(statement)}
+                aria-label="Name"
               >
                 <Icon.IoPlay className="h-auto w-full" />
               </button>

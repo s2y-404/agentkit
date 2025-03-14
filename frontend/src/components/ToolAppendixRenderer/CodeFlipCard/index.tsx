@@ -227,6 +227,7 @@ const CodeFlipCard = (props: Props) => {
                     className="flex size-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs text-white opacity-90 hover:opacity-100"
                     onClick={() => setShowCode(!showCode)}
                     disabled={SUPPORT_EDITING_LANG.includes(language)}
+                    aria-label="Name"
                   >
                     {showCode ? <ResultIcon className="h-auto w-full" /> : <Icon.BsCode className="h-auto w-full" />}
                   </button>
@@ -237,7 +238,7 @@ const CodeFlipCard = (props: Props) => {
               <div className="ml-2">
                 <CSVLink data={executionResult?.rawResult} filename={filename} separator={separator}>
                   <Tooltip content="Download as CSV" position="daisytooltip-top">
-                    <button className="flex size-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs text-white opacity-90 hover:opacity-100">
+                    <button className="flex size-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs text-white opacity-90 hover:opacity-100" aria-label="Name">
                       <Icon.AiOutlineDownload className="h-auto w-full" />
                     </button>
                   </Tooltip>
@@ -250,6 +251,7 @@ const CodeFlipCard = (props: Props) => {
                   <button
                     className="flex size-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs text-white opacity-90 hover:opacity-100"
                     onClick={handleGraphDownload}
+                    aria-label="Name"
                   >
                     <Icon.AiOutlineDownload className="h-auto w-full" />
                   </button>
@@ -261,6 +263,7 @@ const CodeFlipCard = (props: Props) => {
                 <button
                   className="flex size-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs text-white opacity-90 hover:opacity-100"
                   onClick={() => setIsHidden(!isHidden)}
+                  aria-label="Name"
                 >
                   {isHidden ? (
                     <Icon.BiExpandAlt className="h-auto w-full" />
