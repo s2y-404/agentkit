@@ -1,4 +1,3 @@
-
 name: front-ci
 
 on:
@@ -13,21 +12,36 @@ defaults:
 
 jobs:
   lint-frontend:
-    name: lint-frontend
-    runs-on: Linux
+    name: Lint & Format Frontend
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
-      - name: "use node ${{ env.node_version }}"
+
+      - name: Load Node.js version
+        run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
+
+      - name: Setup Node.js & pnpm
         uses: actions/setup-node@v3
         with:
           node-version: "${{ env.node_version }}"
-      - name: install pnpm
+          cache: 'pnpm'  #Pour éviter la réinitilisation des dépendances à chaque utilisation 
+
+      - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-
+
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
       - name: Lint check
         run: pnpm lint
         env:
@@ -36,7 +50,27 @@ jobs:
           GITHUB_ID: ${{ secrets.GH_AUTH_ID }}
           GITHUB_SECRET: ${{ secrets.GH_AUTH_SECRET }}
           NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
+
       - name: Format check
-        run: pnpm prettier
-      # - name: Unit & Integration tests
-      #   run: pnpm test
+        run: pnpm prettier --check
+
+  test-frontend:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load Node.js version
+        run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
+
+      - name: Setup Node.js & pnpm
+        uses: actions/setup-node@v3
+        with:
+          node-version: "${{ env.node_version }}"
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test
