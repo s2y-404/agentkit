@@ -25,19 +25,12 @@ jobs:
         with:
           node-version: "${{ env.node_version }}"
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            pnpm-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -68,6 +61,7 @@ jobs:
         with:
           node-version: "${{ env.node_version }}"
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -89,6 +83,7 @@ jobs:
         with:
           node-version: "${{ env.node_version }}"
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -103,7 +98,7 @@ jobs:
           NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
 
       - name: Wait for the app to be ready
-        run: sleep 10 
+        run: sleep 10 # Attendre que le serveur démarre
 
       - name: Run Cypress tests
         run: pnpm cypress run
