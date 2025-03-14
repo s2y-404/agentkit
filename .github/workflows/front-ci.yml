@@ -20,17 +20,15 @@ jobs:
       - name: Load Node.js version
         run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
 
-      - name: Setup Node.js & pnpm
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "${{ env.node_version }}"
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
+      - name: Manually Install pnpm
+        run: |
+          npm install -g pnpm@8
+          pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -56,12 +54,15 @@ jobs:
       - name: Load Node.js version
         run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
 
-      - name: Setup Node.js & pnpm
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "${{ env.node_version }}"
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
+
+      - name: Manually Install pnpm
+        run: |
+          npm install -g pnpm@8
+          pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -78,12 +79,15 @@ jobs:
       - name: Load Node.js version
         run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
 
-      - name: Setup Node.js & pnpm
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "${{ env.node_version }}"
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
+
+      - name: Manually Install pnpm
+        run: |
+          npm install -g pnpm@8
+          pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
