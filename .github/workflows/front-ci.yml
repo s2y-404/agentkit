@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "${{ env.node_version }}"
-          cache: 'pnpm'  #Pour éviter la réinitilisation des dépendances à chaque utilisation 
+          cache: 'pnpm'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -74,3 +74,36 @@ jobs:
 
       - name: Run tests
         run: pnpm test
+
+  test-e2e:
+    name: End-to-End Tests (Cypress)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load Node.js version
+        run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
+
+      - name: Setup Node.js & pnpm
+        uses: actions/setup-node@v3
+        with:
+          node-version: "${{ env.node_version }}"
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Start the frontend server
+        run: pnpm dev &
+        env:
+          NEXTAUTH_SECRET: bxgh3SAToI/dvtS8/FPNcJbH2Lq+KKuS3KbKvc0x6v0=
+          NEXTAUTH_URL: http://localhost:3000
+          GITHUB_ID: ${{ secrets.GH_AUTH_ID }}
+          GITHUB_SECRET: ${{ secrets.GH_AUTH_SECRET }}
+          NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
+
+      - name: Wait for the app to be ready
+        run: sleep 10 
+
+      - name: Run Cypress tests
+        run: pnpm cypress run
