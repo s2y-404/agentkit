@@ -77,4 +77,26 @@ export class ChatService {
       },
     })
   }
+
+  public static async batchAgentChat(requestBodies: IChatQuery[], concurrency: number = 10): Promise<any[]> {
+    const results: any[] = [];
+    
+    for (let i = 0; i < requestBodies.length; i += concurrency) {
+      const batch = requestBodies.slice(i, i + concurrency);
+      const batchResults = await Promise.all(
+        batch.map(async (requestBody) => {
+          try {
+            return await ChatService.agentChatApiV1ChatAgentPost(requestBody);
+          } catch (error) {
+            console.error("Erreur lors de l'envoi de la requête :", error);
+            return null;
+          }
+        })
+      );
+      results.push(...batchResults);
+    }
+  
+    return results;
+  }
+  
 }

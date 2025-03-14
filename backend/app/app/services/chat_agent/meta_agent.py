@@ -47,27 +47,22 @@ def get_conv_token_buffer_memory(
         chat_memory=chat_history,
     )
 
-    i = 0
-    while i < len(chat_messages):
-        if isinstance(
-            chat_messages[i],
-            HumanMessage,
-        ):
-            if isinstance(
-                chat_messages[i + 1],
-                AIMessage,
-            ):
-                memory.save_context(
-                    inputs={"input": chat_messages[i].content},
-                    outputs={"output": chat_messages[i + 1].content},  # type: ignore
-                )
-                i += 1
-        else:
-            memory.save_context(
-                inputs={"input": chat_messages[i].content},
-                outputs={"output": ""},
-            )
-        i += 1
+    contexts = []
+    for i in range(0, len(chat_messages) - 1, 2):
+        if isinstance(chat_messages[i], HumanMessage) and isinstance(chat_messages[i + 1], AIMessage):
+            contexts.append({
+                "inputs": {"input": chat_messages[i].content},
+                "outputs": {"output": chat_messages[i + 1].content}
+            })
+
+    if len(chat_messages) % 2 == 1:
+        contexts.append({
+            "inputs": {"input": chat_messages[-1].content},
+            "outputs": {"output": ""}
+        })
+
+    if contexts:
+        memory.chat_memory.save_contexts(contexts)
 
     return memory
 
@@ -89,14 +84,8 @@ def create_meta_agent(
     Returns:
         AgentExecutor: The AgentExecutor object.
     """
-    api_key = agent_config.api_key
-    if api_key is None or api_key == "":
-        api_key = settings.OPENAI_API_KEY
-
-    llm = get_llm_hook(
-        agent_config.common.llm,
-        api_key,
-    )
+    api_key = agent_config.api_key or settings.OPENAI_API_KEY
+    llm = get_llm_hook(agent_config.common.llm, api_key)
 
     tools = get_tools(tools=agent_config.tools)
     simple_router_agent = SimpleRouterAgent.from_llm_and_tools(
@@ -106,6 +95,7 @@ def create_meta_agent(
         system_context=agent_config.system_context,
         action_plans=agent_config.action_plans,
     )
+
     return AgentExecutor.from_agent_and_tools(
         agent=simple_router_agent,
         tools=tools,
