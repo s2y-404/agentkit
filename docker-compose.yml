@@ -13,16 +13,6 @@ services:
     env_file: ".env"
     depends_on:
       - database
-  ollama:
-    container_name: ollama
-    image: ollama/ollama
-    restart: always
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama  
-    labels:
-      com.example.description: "Service d'IA Ollama pour génération de texte"
   nextjs_server:
     container_name: nextjs_server
     build: ./frontend
@@ -120,4 +110,3 @@ volumes:
   langchain-redis-data:
   prometheus_data:
   grafana_data:
-  ollama_data:
