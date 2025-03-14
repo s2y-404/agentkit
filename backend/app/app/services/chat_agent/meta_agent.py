@@ -47,25 +47,29 @@ def get_conv_token_buffer_memory(
         chat_memory=chat_history,
     )
 
-    contexts = []
-    for i in range(0, len(chat_messages) - 1, 2):
-        if isinstance(chat_messages[i], HumanMessage) and isinstance(chat_messages[i + 1], AIMessage):
-            contexts.append({
-                "inputs": {"input": chat_messages[i].content},
-                "outputs": {"output": chat_messages[i + 1].content}
-            })
-
-    if len(chat_messages) % 2 == 1:
-        contexts.append({
-            "inputs": {"input": chat_messages[-1].content},
-            "outputs": {"output": ""}
-        })
-
-    if contexts:
-        memory.chat_memory.save_contexts(contexts)
+    i = 0
+    while i < len(chat_messages):
+        if isinstance(
+            chat_messages[i],
+            HumanMessage,
+        ):
+            if isinstance(
+                chat_messages[i + 1],
+                AIMessage,
+            ):
+                memory.save_context(
+                    inputs={"input": chat_messages[i].content},
+                    outputs={"output": chat_messages[i + 1].content},  # type: ignore
+                )
+                i += 1
+        else:
+            memory.save_context(
+                inputs={"input": chat_messages[i].content},
+                outputs={"output": ""},
+            )
+        i += 1
 
     return memory
-
 
 def create_meta_agent(
     agent_config: AgentConfig,
