@@ -209,14 +209,14 @@ const ConversationView = () => {
   }
 
   return (
-    <div className="relative flex h-full max-size-full flex-col items-start justify-start bg-neutral dark:bg-base-300">
+    <div className="relative flex h-full w-full flex-col items-start justify-start bg-neutral dark:bg-base-300">
       <Header />
 
       <div
         ref={conversationViewRef}
         className="relative flex size-full !max-h-[calc(100%-150px)] flex-col items-start justify-start overflow-y-auto bg-neutral dark:bg-base-300"
       >
-        <div className="h-auto w-full grow">
+        <div className="h-auto w-full">
           {messageList.length === 0 || !currentConversation ? (
             <EmptyView className="mt-16 p-24" sendMessage={sendMessageToCurrentConversation} />
           ) : (
