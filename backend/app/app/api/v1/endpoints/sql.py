@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # mypy: disable-error-code="attr-defined"
 from fastapi import APIRouter
+import logging
+from fastapi import APIRouter, Depends, logger
 from fastapi_cache.decorator import cache
 import asyncpg
 import os
@@ -13,6 +15,7 @@ from app.utils.sql import is_sql_query_safe
 load_dotenv('/home/sydsyd/source/repos/agentkit/.env')
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 pool = None
 
@@ -51,6 +54,7 @@ async def execute_sql(
         )
 
     try:
+        logger.info(f"Executing SQL: {statement[:100]}...")
         async with pool.acquire() as connection:
             async with connection.transaction():
                 async with connection.cursor(statement) as cursor:
@@ -58,7 +62,7 @@ async def execute_sql(
                     rows = []
                     async for row in cursor:
                         rows.append(row)
-                    
+                    logger.info(f"SQL query executed successfully: {len(rows)} rows returned")
                     execution_result = ExecutionResult(
                         raw_result=[
                             dict(zip(columns, row))
@@ -68,6 +72,7 @@ async def execute_sql(
                         error=None,
                     )
     except Exception as e:
+        logger.error(f"SQL execution error: {repr(e)}", exc_info=True)
         return create_response(
             message=repr(e),
             data=None,
