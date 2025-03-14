@@ -53,15 +53,11 @@ const SideDrawer = () => {
     setExecutionResult(undefined)
     try {
       const result = await SqlService.executeSqlApiV1SqlExecuteGet(statement)
-      if (result.data) {
-        setExecutionResult(result.data)
-        queryStore.setQueryCache(statement, result.data.rawResult, context.messageId, context.conversationId)
-      } else if (!result.data && result.message) {
-        setExecutionResult({
-          rawResult: [],
-          error: result.message,
-        })
-      }
+      result.data
+        ? (setExecutionResult(result.data),
+          queryStore.setQueryCache(statement, result.data.rawResult, context.messageId, context.conversationId))
+        : result.message &&
+          setExecutionResult({ rawResult: [], error: result.message });
     } catch (error) {
       console.error(error)
       toast.error("Failed to execute statement")

@@ -101,11 +101,7 @@ const CodeFlipCard = (props: Props) => {
           resultDataKeys.some((resultDataKey) => resultDataKey.toLowerCase() === dataKey.toLowerCase())
         )
       })
-    if (cachedResult?.resultRow) {
-      executeStatement(cachedResult?.statement)
-    } else {
-      setIsLoading(false)
-    }
+    cachedResult?.resultRow ? executeStatement(cachedResult?.statement) : setIsLoading(false);
   }
 
   const executeStatement = async (statement: string) => {

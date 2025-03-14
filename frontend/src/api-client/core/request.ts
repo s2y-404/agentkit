@@ -63,20 +63,15 @@ export const getQueryString = (params: Record<string, any>): string => {
   }
 
   const process = (key: string, value: any) => {
-    if (isDefined(value)) {
-      if (Array.isArray(value)) {
-        value.forEach((v) => {
-          process(key, v)
-        })
-      } else if (typeof value === "object") {
-        Object.entries(value).forEach(([k, v]) => {
-          process(`${key}[${k}]`, v)
-        })
-      } else {
-        append(key, value)
-      }
-    }
-  }
+    if (!isDefined(value)) return;
+  
+    Array.isArray(value)
+      ? value.forEach((v) => process(key, v))
+      : typeof value === "object"
+      ? Object.entries(value).forEach(([k, v]) => process(`${key}[${k}]`, v))
+      : append(key, value);
+  };
+  
 
   Object.entries(params).forEach(([key, value]) => {
     process(key, value)
@@ -113,21 +108,13 @@ export const getFormData = (options: ApiRequestOptions): FormData | undefined =>
     const formData = new FormData()
 
     const process = (key: string, value: any) => {
-      if (isString(value) || isBlob(value)) {
-        formData.append(key, value)
-      } else {
-        formData.append(key, JSON.stringify(value))
-      }
+      (isString(value) || isBlob(value)) ? formData.append(key, value) : formData.append(key, JSON.stringify(value)) 
     }
 
     Object.entries(options.formData)
       .filter(([_, value]) => isDefined(value))
       .forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          value.forEach((v) => process(key, v))
-        } else {
-          process(key, value)
-        }
+        Array.isArray(value) ? value.forEach((v) => process(key, v)) : process(key, value);
       })
 
     return formData

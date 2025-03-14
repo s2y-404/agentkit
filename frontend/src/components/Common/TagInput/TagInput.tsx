@@ -15,13 +15,13 @@ export const TagInput = ({ tags, setTags }: TagInputProps) => {
   }
 
   const handleKeyDown = (e: any) => {
-    if ((e?.key === "Enter" || e?.key === "Tab") && inputValue?.trim() !== "") {
-      e?.preventDefault()
-      setTags([...tags, createTag({ value: inputValue?.trim() })])
-      setInputValue("")
-    } else if (e?.key === "Backspace" && inputValue === "") {
-      setTags(tags?.slice(0, -1))
-    }
+    (e?.key === "Enter" || e?.key === "Tab") && inputValue?.trim() !== ""
+      ? (e?.preventDefault(),
+        setTags([...tags, createTag({ value: inputValue.trim() })]),
+        setInputValue(""))
+      : e?.key === "Backspace" && inputValue === ""
+      ? setTags(tags.slice(0, -1))
+      : null;
   }
 
   const handleRemoveTag = (tag: CreateTagType) => {
