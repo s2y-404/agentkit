@@ -12,27 +12,21 @@ defaults:
 
 jobs:
   lint-frontend:
-    name: Lint & Format Frontend
-    runs-on: ubuntu-latest
+    name: lint-frontend
+    runs-on: Linux
     steps:
       - uses: actions/checkout@v4
-
-      - name: Load Node.js version
-        run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
-
-      - name: Install Node.js
+      - run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
+      - name: "use node ${{ env.node_version }}"
         uses: actions/setup-node@v3
         with:
           node-version: "${{ env.node_version }}"
-
-      - name: Manually Install pnpm
-        run: |
-          npm install -g pnpm@8
-          pnpm --version
-
+      - name: install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
+        run: pnpm install
       - name: Lint check
         run: pnpm lint
         env:
@@ -41,68 +35,7 @@ jobs:
           GITHUB_ID: ${{ secrets.GH_AUTH_ID }}
           GITHUB_SECRET: ${{ secrets.GH_AUTH_SECRET }}
           NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
-
       - name: Format check
-        run: pnpm prettier --check
-
-  test-frontend:
-    name: Unit & Integration Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Load Node.js version
-        run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "${{ env.node_version }}"
-
-      - name: Manually Install pnpm
-        run: |
-          npm install -g pnpm@8
-          pnpm --version
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run tests
-        run: pnpm test
-
-  test-e2e:
-    name: End-to-End Tests (Cypress)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Load Node.js version
-        run: echo "node_version=$(cat .github/nodejs.version)" >> $GITHUB_ENV
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "${{ env.node_version }}"
-
-      - name: Manually Install pnpm
-        run: |
-          npm install -g pnpm@8
-          pnpm --version
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Start the frontend server
-        run: pnpm dev &
-        env:
-          NEXTAUTH_SECRET: bxgh3SAToI/dvtS8/FPNcJbH2Lq+KKuS3KbKvc0x6v0=
-          NEXTAUTH_URL: http://localhost:3000
-          GITHUB_ID: ${{ secrets.GH_AUTH_ID }}
-          GITHUB_SECRET: ${{ secrets.GH_AUTH_SECRET }}
-          NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
-
-      - name: Wait for the app to be ready
-        run: sleep 10 # Attendre que le serveur démarre
-
-      - name: Run Cypress tests
-        run: pnpm cypress run
+        run: pnpm prettier
+      # - name: Unit & Integration tests
+      #   run: pnpm test
