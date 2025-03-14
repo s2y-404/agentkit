@@ -7,7 +7,7 @@ import Icon from "~/components/CustomIcons/Icon"
 
 import { authOptions } from "~/server/auth"
 import { Theme } from "~/styles/themes"
-import { APPLICATION_TITLE, getMainLogoSrc } from "~/utils"
+import { CONSTANTS, getMainLogoSrc } from "~/utils"
 import { AUTH_SELECTORS } from "~/utils/signin.selectors"
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 
@@ -53,7 +53,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       {mounted ? (
         <div className="flex flex-row items-center justify-center py-2">
-          <Image src={getMainLogoSrc(Theme.Light)} alt={APPLICATION_TITLE} width={400} height={400} priority />
+          <Image src={getMainLogoSrc(Theme.Light)} alt={CONSTANTS.APPLICATION_TITLE} width={400} height={400} priority />
         </div>
       ) : null}
       <h1 className="mt-2 text-4xl font-bold text-gray-800">Welcome back</h1>

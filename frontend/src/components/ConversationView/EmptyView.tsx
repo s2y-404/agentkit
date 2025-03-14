@@ -1,7 +1,7 @@
 import Image from "next/image"
 
 import { useTheme } from "next-themes"
-import { APPLICATION_TITLE, getMainLogoSrc } from "~/utils"
+import { CONSTANTS, getMainLogoSrc } from "~/utils"
 import { CONVERSATION_VIEW_SELECTORS } from "./ConversationView.selectors"
 
 // examples are used to show some examples to the user.
@@ -28,7 +28,7 @@ const EmptyView = (props: Props) => {
       {/* <GradientTextSVG /> */}
       <div className="mb-8 flex w-96 max-w-full items-center justify-center font-medium leading-loose">
         <div className="max-w-[500px] rounded-lg">
-          <Image src={getMainLogoSrc(resolvedTheme)} alt={APPLICATION_TITLE} width="175" height="175" priority />
+          <Image src={getMainLogoSrc(resolvedTheme)} alt={CONSTANTS.APPLICATION_TITLE} width="175" height="175" priority />
         </div>
       </div>
       <div className="group mx-auto flex w-full max-w-full flex-row items-start justify-start rounded-lg bg-base-100 p-4">
