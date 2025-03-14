@@ -15,17 +15,6 @@ services:
       - "prometheus-job=fastapi"
     networks:
       - monitoring
-    
-  ollama:
-    image: ollama/ollama
-    restart: always
-    ports:
-      - "11434:11434"
-    labels:
-      - "prometheus-job=ollama"
-    networks:
-      - monitoring
-
   nextjs_server:
     container_name: nextjs_server
     build: ./frontend
