@@ -33,6 +33,7 @@ const CancelMessageButton = (props: Props) => {
         className="daisybtn glass hover:daisybtn-error"
         disabled={!lastMessage || lastMessage.status !== "LOADING"}
         onClick={cancelMessage}
+        aria-label="Name"
       >
         <Icon.MdOutlineCancel className="h-auto w-6" />
       </button>

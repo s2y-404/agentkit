@@ -121,7 +121,7 @@ const MessageView = (props: Props) => {
           <div className="invisible group-hover:visible">
             <Dropdown
               tigger={
-                <button className="ml-1 mt-2 flex size-6 shrink-0 items-center justify-center">
+                <button className="ml-1 mt-2 flex size-6 shrink-0 items-center justify-center" aria-label="Name">
                   <Icon.IoMdMore className="h-auto w-5 text-base-300 dark:!text-neutral" />
                 </button>
               }
@@ -186,6 +186,7 @@ const MessageView = (props: Props) => {
                           <button
                             className="flex size-6 items-center justify-center rounded bg-accent bg-none p-1 text-xs opacity-90 hover:opacity-100"
                             onClick={() => setIsActionsCollapsed(!isActionsCollapsed)}
+                            aria-label="Name"
                           >
                             {isActionsCollapsed ? (
                               <Icon.BiChevronDown className="h-auto w-full !text-base-300 dark:!text-neutral" />
@@ -252,7 +253,7 @@ const MessageView = (props: Props) => {
               <div className="invisible group-hover:visible">
                 <Dropdown
                   tigger={
-                    <button className="ml-1 mt-2 flex size-6 shrink-0 items-center justify-center text-gray-900 hover:text-gray-900">
+                    <button className="ml-1 mt-2 flex size-6 shrink-0 items-center justify-center text-gray-900 hover:text-gray-900" aria-label="Name">
                       <Icon.IoMdMore className="h-auto w-5 text-base-300 dark:!text-neutral" />
                     </button>
                   }

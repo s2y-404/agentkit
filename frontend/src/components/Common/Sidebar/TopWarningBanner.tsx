@@ -30,6 +30,7 @@ export const TopWarningBanner = (props: Props) => {
         <button
           className="absolute right-2 opacity-60 hover:opacity-100 sm:right-4"
           onClick={() => setHideBanner(true)}
+          aria-label="Name"
         >
           <Icon.BiX className="h-auto w-6 !text-white" />
         </button>

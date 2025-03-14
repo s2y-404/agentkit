@@ -62,7 +62,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
           {credentialsProvider && (
             <div className="flex w-64 flex-col rounded-xl text-center text-gray-700">
               <form method="post" action="/api/auth/callback/credentials">
-                <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+                <input name="csrfToken" type="hidden" defaultValue={csrfToken} aria-label="csrfToken"/>
                 <div className="my-2">
                   <label htmlFor={"email_login"} className="sr-only">
                     {"Email"}
@@ -76,6 +76,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
                     placeholder={"Email"}
                     data-cy={AUTH_SELECTORS.emailInput}
                     autoComplete="username"
+                    aria-label="login input"
                   />
                 </div>
                 <div className="my-2">
@@ -91,12 +92,14 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
                     placeholder={"Password"}
                     data-cy={AUTH_SELECTORS.passwordInput}
                     autoComplete="current-password"
+                    aria-label="password input"
                   />
                 </div>
                 <button
                   type="submit"
                   className="flex w-full flex-row items-center justify-center rounded-xl bg-gray-900 p-4 text-center text-gray-100"
                   data-cy={AUTH_SELECTORS.signinButton}
+                  aria-label="Name"
                 >
                   <Icon.FaSignInAlt className="mr-2" />
                   Sign in with Email
@@ -123,7 +126,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
                 height={30}
                 className="mx-2"
               />
-              <button onClick={() => signIn(provider.id)}>Sign in with {provider.name}</button>
+              <button onClick={() => signIn(provider.id)} aria-label="Name">Sign in with {provider.name}</button>
             </div>
           ))}
         </div>

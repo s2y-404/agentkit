@@ -32,6 +32,7 @@ export const Input = forwardRef(function Input(
         placeholder={placeholder}
         className="daisyinput daisyinput-bordered daisyinput-sm w-full bg-neutral lg:daisyinput-md disabled:!bg-base-100 dark:bg-base-200"
         ref={ref}
+        aria-label="text input"
       />
     </div>
   )

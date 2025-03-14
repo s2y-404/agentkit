@@ -26,6 +26,7 @@ const TextAreaEditor = (props: Props) => {
         disabled={true}
         // disable color when disabled
         style={{ backgroundColor: "#4CAF50", opacity: 0.5 }}
+        aria-label="Name"
       >
         Save
       </button>

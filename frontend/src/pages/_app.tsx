@@ -25,7 +25,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) =>
   <SessionProvider session={session}>
     <Head>
       <title>{APPLICATION_TITLE}</title>
-      <meta name="A GenAI POC application @ BCG.X" content="By BCG X" />
+      <meta name="description" content="A GenAI proof-of-concept application developed by BCG X." />
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <ThemeProvider>

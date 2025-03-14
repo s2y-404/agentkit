@@ -35,7 +35,7 @@ const InnerModal = ({ uniqueModalId, actionButtons, onClose, children }: ModalPr
       </div>
       <form method="dialog" className="daisymodal-backdrop">
         {" "}
-        <button />
+        <button aria-label="Name"/>
       </form>
     </dialog>
   )
